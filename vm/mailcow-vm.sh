@@ -422,7 +422,7 @@ qm set $VMID \
   -boot order=scsi0 \
   -serial0 socket >/dev/null
 
-qm resize $VMID scsi0 4G >/dev/null
+qm resize $VMID scsi0 10G >/dev/null
 
 # Add Cloud-init
 qm set $VMID --ide2 ${STORAGE}:cloudinit
