@@ -425,6 +425,17 @@ qm set $VMID \
 
 qm resize $VMID scsi0 10G >/dev/null
 
+echo "Debug Information:"
+echo $VMID 
+echo $STORAGE
+echo $FILE
+echo $DISK0
+echo $DISK1
+echo $DISK0_REF
+echo $$DISK1_REF
+echo ${FORMAT}
+
+
 # Add Cloud-init
 qm set $VMID --ide2 ${STORAGE}:cloudinit
 
