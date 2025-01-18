@@ -425,7 +425,7 @@ qm set $VMID \
 qm resize $VMID scsi0 4G >/dev/null
 
 # Add Cloud-init
-qm set $VMID --ide2 ${DISK0_REF}:cloudinit
+qm set $VMID --ide2 ${STORAGE}:cloudinit
 
 # Set Cloud-Init config
 CLOUD=$(cat <<EOF
@@ -453,9 +453,9 @@ runcmd:
 EOF
 )
 echo $CLOUD 
-echo $CLOUD > "${DISK0_REF}:cloud-init/$VMID-cloud-init.yml"
+echo $CLOUD > "${STORAGE}:cloud-init/$VMID-cloud-init.yml"
 
-qm set $VMID  --cicustom "user=${DISK0_REF}:cloud-init/$VMID-cloud-init.yml"
+qm set $VMID  --cicustom "user=${STORAGE}:cloud-init/$VMID-cloud-init.yml"
 
 
 # check the cloud-init config
@@ -464,7 +464,6 @@ qm cloudinit dump $VMID user
 
 # Enable QEMU Guest Agent
 qm set $VMID --agent enabled=1
-
 
 
   DESCRIPTION=$(cat <<EOF
@@ -498,8 +497,6 @@ EOF
 )
   qm set "$VMID" -description "$DESCRIPTION" >/dev/null  
   
-
-
 msg_ok "Created a mailcow VM ${CL}${BL}(${HN})"
 if [ "$START_VM" == "yes" ]; then
   msg_info "Starting mailcow VM"
@@ -507,28 +504,3 @@ if [ "$START_VM" == "yes" ]; then
   msg_ok "Started mailcow VM"
 fi
 msg_ok "Completed Successfully!\n"
-
-
-# Use Cloud-Init on raw debian image
-
-#cloud-config
-package_update: true
-package_upgrade: true
-packages:
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - gnupg-agent
-  - software-properties-common
-#  - git
-runcmd:
-  - curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-  - add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-  - apt-get update -y
-  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-  - systemctl start docker
-  - systemctl enable docker
-#  - git clone https://github.com/mailcow/mailcow-dockerized /opt/mailcow-dockerized
-#  - cd /opt/mailcow-dockerized/ && docker compose pull
-#  - bash /opt/mailcow-dockerized/generate_config.sh
-#  - cd /opt/mailcow-dockerized/ && docker compose up -d

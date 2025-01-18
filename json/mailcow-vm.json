@@ -4,7 +4,7 @@
 "categories": [
 9
 ],
-"date_created": "2025-01-17",
+"date_created": "2025-01-18",
 "type": "vm",
 "updateable": false,
 "privileged": false,
@@ -21,8 +21,8 @@
 "cpu": 2,
 "ram": 6144,
 "hdd": 10,
-"os": null,
-"version": null
+"os": "debian",
+"version": "12"
 }
 }
 ],
