@@ -438,6 +438,7 @@ packages:
   - curl
   - gnupg-agent
   - software-properties-common
+  - lsb-release
 #  - git
 runcmd:
   - curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
