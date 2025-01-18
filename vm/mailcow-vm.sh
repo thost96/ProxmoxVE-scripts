@@ -371,8 +371,13 @@ else
 fi
 msg_ok "Using ${CL}${BL}$STORAGE${CL} ${GN}for Storage Location."
 msg_ok "Virtual Machine ID is ${CL}${BL}$VMID${CL}."
+
+
+
 msg_info "Retrieving the URL for the Debian 12 Qcow2 Disk Image"
-URL=https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-nocloud-amd64.qcow2
+# Cloud-Init ready image
+# see https://cloud.debian.org/images/cloud/bookworm/latest/
+URL=https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
 sleep 2
 msg_ok "${CL}${BL}${URL}${CL}"
 wget -q --show-progress $URL
@@ -402,17 +407,66 @@ for i in {0,1}; do
   eval DISK${i}_REF=${STORAGE}:${DISK_REF:-}${!disk}
 done
 
+
 msg_info "Creating a Debian 12 mailcow VM"
 qm create $VMID -agent 1${MACHINE} -tablet 0 -localtime 1 -bios ovmf${CPU_TYPE} -cores $CORE_COUNT -memory $RAM_SIZE \
   -name $HN -tags proxmox-helper-scripts -net0 virtio,bridge=$BRG,macaddr=$MAC$VLAN$MTU -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
+  
 pvesm alloc $STORAGE $VMID $DISK0 4M 1>&/dev/null
+
 qm importdisk $VMID ${FILE} $STORAGE ${DISK_IMPORT:-} 1>&/dev/null
+
 qm set $VMID \
   -efidisk0 ${DISK0_REF}${FORMAT} \
   -scsi0 ${DISK1_REF},${DISK_CACHE}${THIN}size=2G \
   -boot order=scsi0 \
   -serial0 socket >/dev/null
+
 qm resize $VMID scsi0 4G >/dev/null
+
+# Add Cloud-init
+qm set $VMID --ide2 ${DISK0_REF}:cloudinit
+
+# Set Cloud-Init config
+CLOUD=$(cat <<EOF
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+#  - git
+runcmd:
+  - curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+  - add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+  - apt-get update -y
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  - systemctl start docker
+  - systemctl enable docker
+#  - git clone https://github.com/mailcow/mailcow-dockerized /opt/mailcow-dockerized
+#  - cd /opt/mailcow-dockerized/ && docker compose pull
+#  - bash /opt/mailcow-dockerized/generate_config.sh
+#  - cd /opt/mailcow-dockerized/ && docker compose up -d
+EOF
+)
+echo $CLOUD 
+echo $CLOUD > "${DISK0_REF}:cloud-init/$VMID-cloud-init.yml"
+
+qm set $VMID  --cicustom "user=${DISK0_REF}:cloud-init/$VMID-cloud-init.yml"
+
+
+# check the cloud-init config
+qm cloudinit dump $VMID user
+
+
+# Enable QEMU Guest Agent
+qm set $VMID --agent enabled=1
+
+
+
   DESCRIPTION=$(cat <<EOF
 <div align='center'>
   <a href='https://Helper-Scripts.com' target='_blank' rel='noopener noreferrer'>
@@ -444,6 +498,8 @@ EOF
 )
   qm set "$VMID" -description "$DESCRIPTION" >/dev/null  
   
+
+
 msg_ok "Created a mailcow VM ${CL}${BL}(${HN})"
 if [ "$START_VM" == "yes" ]; then
   msg_info "Starting mailcow VM"
@@ -451,3 +507,28 @@ if [ "$START_VM" == "yes" ]; then
   msg_ok "Started mailcow VM"
 fi
 msg_ok "Completed Successfully!\n"
+
+
+# Use Cloud-Init on raw debian image
+
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+#  - git
+runcmd:
+  - curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+  - add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+  - apt-get update -y
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  - systemctl start docker
+  - systemctl enable docker
+#  - git clone https://github.com/mailcow/mailcow-dockerized /opt/mailcow-dockerized
+#  - cd /opt/mailcow-dockerized/ && docker compose pull
+#  - bash /opt/mailcow-dockerized/generate_config.sh
+#  - cd /opt/mailcow-dockerized/ && docker compose up -d
