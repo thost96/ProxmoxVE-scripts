@@ -47,10 +47,11 @@ function error_handler() {
 }
 
 function cleanup_vmid() {
-  if qm status $VMID &>/dev/null; then
-    qm stop $VMID &>/dev/null
-    qm destroy $VMID &>/dev/null
-  fi
+  # if qm status $VMID &>/dev/null; then
+  #   qm stop $VMID &>/dev/null
+  #   qm destroy $VMID &>/dev/null
+  # fi
+  return 0
 }
 
 function cleanup() {
@@ -454,6 +455,12 @@ runcmd:
 EOF
 )
 echo $CLOUD 
+
+
+# Get Storage Path for Cloud-init disk
+# pvesm path "${STORAGE}:$VMID $DISK0 4M 1>&/dev/null
+
+
 echo $CLOUD > "${STORAGE}:cloud-init/$VMID-cloud-init.yml"
 
 qm set $VMID  --cicustom "user=${STORAGE}:cloud-init/$VMID-cloud-init.yml"
