@@ -10,14 +10,14 @@ function header_info {
                     _ __                    
    ____ ___  ____ _(_) /________ _      ___ 
   / __ `__ \/ __ `/ / / ___/ __ \ | /| / (_)
- / / / / / / /_/ / / / /__/ /_/ / |/ |/ /   
-/_/ /_/ /_/\__,_/_/_/\___/\____/|__/|__(_)  
-                
+ / / / / / / /_/ / / / /__/ /_/ / |/ |/ /
+/_/ /_/ /_/\__,_/_/_/\___/\____/|__/|__(_)
+
        __           __             _                __
   ____/ /___  _____/ /_____  _____(_)___  ___  ____/ /
- / __  / __ \/ ___/ //_/ _ \/ ___/ /_  / / _ \/ __  / 
-/ /_/ / /_/ / /__/ ,< /  __/ /  / / / /_/  __/ /_/ /  
-\__,_/\____/\___/_/|_|\___/_/  /_/ /___/\___/\__,_/  
+ / __  / __ \/ ___/ //_/ _ \/ ___/ /_  / / _ \/ __  /
+/ /_/ / /_/ / /__/ ,< /  __/ /  / / / /_/  __/ /_/ /
+\__,_/\____/\___/_/|_|\___/_/  /_/ /___/\___/\__,_/
 
 EOF
 }
@@ -52,11 +52,10 @@ function error_handler() {
 }
 
 function cleanup_vmid() {
-  # if qm status $VMID &>/dev/null; then
-  #   qm stop $VMID &>/dev/null
-  #   qm destroy $VMID &>/dev/null
-  # fi
-  return 0
+  if qm status $VMID &>/dev/null; then
+    qm stop $VMID &>/dev/null
+    qm destroy $VMID &>/dev/null
+  fi
 }
 
 function cleanup() {
@@ -66,7 +65,7 @@ function cleanup() {
 
 TEMP_DIR=$(mktemp -d)
 pushd $TEMP_DIR >/dev/null
-if whiptail --backtitle "Proxmox VE Helper Scripts" --title "mailcow: dockerized VM" --yesno "This will create a New mailcow: dockerized VM. Proceed?" 10 58; then
+if whiptail --backtitle "Proxmox VE Helper Scripts" --title " dockerized VM" --yesno "This will create a New  dockerized VM. Proceed?" 10 58; then
   :
 else
   header_info && echo -e "⚠ User exited script \n" && exit
@@ -107,14 +106,14 @@ function pve_check() {
 fi
 }
 
-# Later adding ARM64 Support
-# https://docs.mailcow.email/getstarted/prerequisite-system/#minimum-system-resources
 function arch_check() {
   if [ "$(dpkg --print-architecture)" != "amd64" ]; then
-    msg_error "This script will not work with PiMox! \n"
-    echo -e "Exiting..."
-    sleep 2
-    exit
+    if [ "$(dpkg --print-architecture)" != "arm64" ]; then
+      msg_error "This script will not work with your CPU Architekture \n"
+      echo -e "Exiting..."
+      sleep 2
+      exit
+    fi
   fi
 }
 
@@ -377,13 +376,8 @@ else
 fi
 msg_ok "Using ${CL}${BL}$STORAGE${CL} ${GN}for Storage Location."
 msg_ok "Virtual Machine ID is ${CL}${BL}$VMID${CL}."
-
-
-
 msg_info "Retrieving the URL for the Debian 12 Qcow2 Disk Image"
-# Cloud-Init ready image
-# see https://cloud.debian.org/images/cloud/bookworm/latest/
-URL=https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
+URL="https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-nocloud-$(dpkg --print-architecture).qcow2"
 sleep 2
 msg_ok "${CL}${BL}${URL}${CL}"
 wget -q --show-progress $URL
@@ -413,82 +407,34 @@ for i in {0,1}; do
   eval DISK${i}_REF=${STORAGE}:${DISK_REF:-}${!disk}
 done
 
+msg_info "Installing Pre-Requisite libguestfs-tools onto Host"
+apt-get -qq update && apt-get -qq install libguestfs-tools -y >/dev/null
+msg_ok "Installed libguestfs-tools successful"
 
-msg_info "Creating a Debian 12 mailcow VM"
+msg_info "Adding Docker, Docker Compose Plugin and installing mailcow: dockerized to Debian 12 Qcow2 Disk Image Image"
+virt-customize -q -a "${FILE}" --install qemu-guest-agent,apt-transport-https,ca-certificates,curl,gnupg-agent,software-properties-common,lsb-release,git >/dev/null &&
+virt-customize -q -a "${FILE}" --root-password password:moohoo >/dev/null &&
+virt-customize -q -a "${FILE}" --run-command "curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -" >/dev/null &&
+virt-customize -q -a "${FILE}" --run-command "add-apt-repository \"deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable\"" >/dev/null &&
+virt-customize -q -a "${FILE}" --run-command "apt-get update -y && apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin" >/dev/null &&
+virt-customize -q -a "${FILE}" --run-command "systemctl start docker && systemctl enable docker" >/dev/null &&
+virt-customize -q -a "${FILE}" --run-command "git clone https://github.com/mailcow/mailcow-dockerized /opt/mailcow-dockerized" >/dev/null &&
+virt-customize -q -a "${FILE}" --run-command "cd /opt/mailcow-dockerized/ && docker compose pull" >/dev/null &&
+virt-customize -q -a "${FILE}" --run-command "echo -n > /etc/machine-id" >/dev/null
+msg_ok "Added Docker, Docker Compose Plugin and installed mailcow: dockerized to Debian 12 Qcow2 Disk Image successful"
+
+msg_info "Creating mailcow: dockerized VM"
 qm create $VMID -agent 1${MACHINE} -tablet 0 -localtime 1 -bios ovmf${CPU_TYPE} -cores $CORE_COUNT -memory $RAM_SIZE \
   -name $HN -tags proxmox-helper-scripts -net0 virtio,bridge=$BRG,macaddr=$MAC$VLAN$MTU -onboot 1 -ostype l26 -scsihw virtio-scsi-pci
-  
 pvesm alloc $STORAGE $VMID $DISK0 4M 1>&/dev/null
-
 qm importdisk $VMID ${FILE} $STORAGE ${DISK_IMPORT:-} 1>&/dev/null
-
 qm set $VMID \
   -efidisk0 ${DISK0_REF}${FORMAT} \
   -scsi0 ${DISK1_REF},${DISK_CACHE}${THIN}size=2G \
   -boot order=scsi0 \
   -serial0 socket >/dev/null
-
 qm resize $VMID scsi0 10G >/dev/null
-
-echo "Debug Information:"
-echo $VMID 
-echo $STORAGE
-echo $FILE
-echo $DISK0
-echo $DISK1
-echo $DISK0_REF
-echo $$DISK1_REF
-echo ${FORMAT}
-
-
-# Add Cloud-init
-qm set $VMID --ide2 ${STORAGE}:cloudinit
-
-# Set Cloud-Init config
-CLOUD=$(cat <<EOF
-#cloud-config
-package_update: true
-package_upgrade: true
-packages:
-  - apt-transport-https
-  - ca-certificates
-  - curl
-  - gnupg-agent
-  - software-properties-common
-  - lsb-release
-#  - git
-runcmd:
-  - curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-  - add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-  - apt-get update -y
-  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-  - systemctl start docker
-  - systemctl enable docker
-#  - git clone https://github.com/mailcow/mailcow-dockerized /opt/mailcow-dockerized
-#  - cd /opt/mailcow-dockerized/ && docker compose pull
-#  - bash /opt/mailcow-dockerized/generate_config.sh
-#  - cd /opt/mailcow-dockerized/ && docker compose up -d
-EOF
-)
-echo $CLOUD 
-
-
-# Get Storage Path for Cloud-init disk
-# pvesm path "${STORAGE}:$VMID $DISK0 4M 1>&/dev/null
-
-
-echo $CLOUD > "${STORAGE}:cloud-init/$VMID-cloud-init.yml"
-
-qm set $VMID  --cicustom "user=${STORAGE}:cloud-init/$VMID-cloud-init.yml"
-
-
-# check the cloud-init config
-qm cloudinit dump $VMID user
-
-
-# Enable QEMU Guest Agent
-qm set $VMID --agent enabled=1
-
+qm set $VMID --agent enabled=1 >/dev/null
 
   DESCRIPTION=$(cat <<EOF
 <div align='center'>
@@ -496,14 +442,14 @@ qm set $VMID --agent enabled=1
     <img src='https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/images/logo-81x112.png' alt='Logo' style='width:81px;height:112px;'/>
   </a>
 
-  <h2 style='font-size: 24px; margin: 20px 0;'>mailcow: dockerized VM</h2>
+  <h2 style='font-size: 24px; margin: 20px 0;'> mailcow: dockerized VM</h2>
 
   <p style='margin: 16px 0;'>
     <a href='https://ko-fi.com/community_scripts' target='_blank' rel='noopener noreferrer'>
       <img src='https://img.shields.io/badge/&#x2615;-Buy us a coffee-blue' alt='spend Coffee' />
     </a>
   </p>
-  
+
   <span style='margin: 0 10px;'>
     <i class="fa fa-github fa-fw" style="color: #f5f5f5;"></i>
     <a href='https://github.com/community-scripts/ProxmoxVE' target='_blank' rel='noopener noreferrer' style='text-decoration: none; color: #00617f;'>GitHub</a>
@@ -519,8 +465,8 @@ qm set $VMID --agent enabled=1
 </div>
 EOF
 )
-  qm set "$VMID" -description "$DESCRIPTION" >/dev/null  
-  
+  qm set "$VMID" -description "$DESCRIPTION" >/dev/null
+
 msg_ok "Created a mailcow VM ${CL}${BL}(${HN})"
 if [ "$START_VM" == "yes" ]; then
   msg_info "Starting mailcow VM"

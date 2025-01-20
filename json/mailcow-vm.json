@@ -1,34 +1,47 @@
 {
-"name": "mailcow: dockerized",
-"slug": "mailcow-vm",
-"categories": [
-9
-],
-"date_created": "2025-01-18",
-"type": "vm",
-"updateable": false,
-"privileged": false,
-"interface_port": 443,
-"documentation": "https://docs.mailcow.email/",
-"website": "https://mailcow.email/",
-"logo": "https://docs.mailcow.email/assets/images/logo.svg",
-"description": "The mailserver suite with the 'moo'. mailcow: dockerized is an open source groupware/email suite based on docker.",
-"install_methods": [
-{
-"type": "default",
-"script": "vm/mailcow-vm.sh",
-"resources": {
-"cpu": 2,
-"ram": 6144,
-"hdd": 10,
-"os": "debian",
-"version": "12"
-}
-}
-],
-"default_credentials": {
-"username": "admin",
-"password": "moohoo"
-},
-"notes": []
+  "name": "mailcow: dockerized VM",
+  "slug": "mailcow-vm",
+  "categories": [
+    8
+  ],
+  "date_created": "2025-01-20",
+  "type": "vm",
+  "updateable": false,
+  "privileged": false,
+  "interface_port": 443,
+  "documentation": "https://docs.mailcow.email/",
+  "website": "https://mailcow.email/",
+  "logo": "https://docs.mailcow.email/assets/images/logo.svg",
+  "description": "The mailserver suite with the 'moo'. mailcow: dockerized is an open source groupware/email suite based on Docker.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "vm/mailcow-vm.sh",
+      "resources": {
+        "cpu": 2,
+        "ram": 6144,
+        "hdd": 10,
+        "os": "debian",
+        "version": "12"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": "root",
+    "password": "moohoo"
+  },
+  "notes": [
+    {
+        "text": "After the script completes, click on the VM, then on the Summary or Console tab to find the VM IP.",
+        "type": "info"
+    },
+    {
+        "text": "This Script works on amd64 and arm64 Architecture.",
+        "type": "info"
+    },
+    {
+      "text": "After the first login, you need to execute the script /opt/mailcow-dockerized/generate_config.sh to set your custom settings.",
+      "type": "warn"
+    }
+  ]
 }
