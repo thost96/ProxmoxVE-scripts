@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2025 tteck | community-scripts ORG
+# Copyright (c) 2021-2025 community-scripts ORG
 # Author: thost96 (thost96)
-# License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
-
+# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
 function header_info {
   clear
   cat <<"EOF"
- _ __ ___   __ _(_) | ___ _____      __
-| '_ ` _ \ / _` | | |/ __/ _ \ \ /\ / /
-| | | | | | (_| | | | (_| (_) \ V  V /
-|_| |_| |_|\__,_|_|_|\___\___/ \_/\_/
+                    _ __                    
+   ____ ___  ____ _(_) /________ _      ___ 
+  / __ `__ \/ __ `/ / / ___/ __ \ | /| / (_)
+ / / / / / / /_/ / / / /__/ /_/ / |/ |/ /   
+/_/ /_/ /_/\__,_/_/_/\___/\____/|__/|__(_)  
+                
+       __           __             _                __
+  ____/ /___  _____/ /_____  _____(_)___  ___  ____/ /
+ / __  / __ \/ ___/ //_/ _ \/ ___/ /_  / / _ \/ __  / 
+/ /_/ / /_/ / /__/ ,< /  __/ /  / / / /_/  __/ /_/ /  
+\__,_/\____/\___/_/|_|\___/_/  /_/ /___/\___/\__,_/  
 
 EOF
 }
