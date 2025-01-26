@@ -17,13 +17,56 @@ All LXC instances created using this repository come pre-installed with Midnight
 Do not break established syntax in this file, as it is automatically updated by a Github Workflow
 
 
+## 2025-01-26
+
+### Changed
+
+### 🚀 Updated Scripts
+
+- Jellyfin: Fix default logging level [@tremor021](https://github.com/tremor021) ([#1768](https://github.com/community-scripts/ProxmoxVE/pull/1768))
+- Calibre-Web: added installation of calibre binaries [@tremor021](https://github.com/tremor021) ([#1763](https://github.com/community-scripts/ProxmoxVE/pull/1763))
+- openHAB - Use https and include doc url [@moodyblue](https://github.com/moodyblue) ([#1766](https://github.com/community-scripts/ProxmoxVE/pull/1766))
+- Added environment variable to accept EULA for SQLServer2022 [@tremor021](https://github.com/tremor021) ([#1755](https://github.com/community-scripts/ProxmoxVE/pull/1755))
+
+### 🌐 Website
+
+- The Lounge: Fix the command to create new users [@tremor021](https://github.com/tremor021) ([#1762](https://github.com/community-scripts/ProxmoxVE/pull/1762))
+
+## 2025-01-24
+
+### Changed
+
+### ✨ New Scripts
+
+- New Script: Ubuntu 24.10 VM [@MickLesk](https://github.com/MickLesk) ([#1711](https://github.com/community-scripts/ProxmoxVE/pull/1711))
+
+### 🚀 Updated Scripts
+
+- openHAB - Update to Zulu21 [@moodyblue](https://github.com/moodyblue) ([#1734](https://github.com/community-scripts/ProxmoxVE/pull/1734))
+- Feature: Filebrowser Script > Redesign | Update Logic | Remove Logic [@MickLesk](https://github.com/MickLesk) ([#1716](https://github.com/community-scripts/ProxmoxVE/pull/1716))
+- Feature: Ubuntu 22.04 VM > Redesign | Optional HDD-Size Prompt [@MickLesk](https://github.com/MickLesk) ([#1712](https://github.com/community-scripts/ProxmoxVE/pull/1712))
+- Feature: Ubuntu 24.04 VM > Redesign | Optional HDD-Size Prompt | cifs support [@MickLesk](https://github.com/MickLesk) ([#1714](https://github.com/community-scripts/ProxmoxVE/pull/1714))
+
+### 🧰 Maintenance
+
+- [Core] Better Creation of App Headers for next feature [@MickLesk](https://github.com/MickLesk) ([#1719](https://github.com/community-scripts/ProxmoxVE/pull/1719))
+
 ## 2025-01-23
 
 ### Changed
 
 ### 🚀 Updated Scripts
 
+- Feature: Add Debian Disk Size / Redesign / Increase Disk [@MickLesk](https://github.com/MickLesk) ([#1695](https://github.com/community-scripts/ProxmoxVE/pull/1695))
 - Fix: Paperless Service Timings & Optimization: Ghostscript Installation [@MickLesk](https://github.com/MickLesk) ([#1688](https://github.com/community-scripts/ProxmoxVE/pull/1688))
+
+### 🌐 Website
+
+- Refactor ScriptInfoBlocks and siteConfig to properly show the most populair scripts [@BramSuurdje](https://github.com/BramSuurdje) ([#1697](https://github.com/community-scripts/ProxmoxVE/pull/1697))
+
+### 🧰 Maintenance
+
+- Update build.func: Ubuntu advanced settings version [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1701](https://github.com/community-scripts/ProxmoxVE/pull/1701))
 
 ## 2025-01-22
 
