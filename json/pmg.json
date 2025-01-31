@@ -15,15 +15,15 @@
     "description": "Proxmox Mail Gateway is the leading open-source email security solution helping you to protect your mail server against all email threats from the moment they emerge.",
     "install_methods": [
         {
-        "type": "default",
-        "script": "ct/pmg.sh",
-        "resources": {
-            "cpu": 2,
-            "ram": 4096,
-            "hdd": 10,
-            "os": "debian",
-            "version": "12"
-        }
+            "type": "default",
+            "script": "ct/pmg.sh",
+            "resources": {
+                "cpu": 2,
+                "ram": 4096,
+                "hdd": 10,
+                "os": "debian",
+                "version": "12"
+            }
         }
     ],
     "default_credentials": {

@@ -5,7 +5,7 @@ source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/m
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
 APP="PMG"
-var_tags="mail;debian12"
+var_tags="mail"
 var_cpu="2"
 var_ram="4096"
 var_disk="10"

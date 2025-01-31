@@ -21,9 +21,10 @@ $STD apt-get -qq -y install \
 msg_ok "Installed Dependencies"
 
 msg_info "Installing Proxmox Mail Gateway"
-wget -q https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
-echo "deb http://download.proxmox.com/debian/pmg bookworm pmg-no-subscription" > /etc/apt/sources.list.d/pmg.list
-$STD apt-get -qq update >/dev/null && apt-get -qq -y install proxmox-mailgateway-container >/dev/null
+$STD wget -q https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+$STD echo "deb http://download.proxmox.com/debian/pmg bookworm pmg-no-subscription" > /etc/apt/sources.list.d/pmg.list
+$STD apt-get -qq update >/dev/null 
+$STD apt-get -qq -y install proxmox-mailgateway-container >/dev/null
 msg_ok "Installed Proxmox Mail Gateway"
 
 motd_ssh
