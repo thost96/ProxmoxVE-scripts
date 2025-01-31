@@ -22,8 +22,6 @@ $STD apt-get install -y \
 msg_ok "Installed Dependencies"
 
 msg_info "Installing Proxmox Mail Gateway"
-RELEASE=$(curl -fsSL https://api.github.com/repos/checkmk/checkmk/tags | grep "name" | awk '{print substr($2, 3, length($2)-4) }' | head -n 1)
-
 wget -q https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
 echo "deb http://download.proxmox.com/debian/pmg bookworm pmg-no-subscription" > /etc/apt/sources.list.d/pmg.list
 apt-get update
@@ -32,11 +30,6 @@ msg_ok "Installed Proxmox Backup Server"
 
 motd_ssh
 customize
-
-msg_info "Creating Service"
-$STD systemctl enable proxmox-mailgateway-container.service
-$STD systemctl start proxmox-mailgateway-container.service
-msg_ok "Created Service"
 
 msg_info "Cleaning up"
 $STD apt-get -y autoremove
