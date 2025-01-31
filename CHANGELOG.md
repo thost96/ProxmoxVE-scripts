@@ -17,15 +17,116 @@ All LXC instances created using this repository come pre-installed with Midnight
 Do not break established syntax in this file, as it is automatically updated by a Github Workflow
 
 
+## 2025-01-31
+
+### Changed
+
+### 🚀 Updated Scripts
+
+- [Fix] Change Download of Trilium after there change the tag/release logic [@MickLesk](https://github.com/MickLesk) ([#1892](https://github.com/community-scripts/ProxmoxVE/pull/1892))
+
+## 2025-01-30
+
+### Changed
+
+### ✨ New Scripts
+
+- New Script: IT-Tools [@nicedevil007](https://github.com/nicedevil007) ([#1862](https://github.com/community-scripts/ProxmoxVE/pull/1862))
+- New Script: Mattermost [@Dracentis](https://github.com/Dracentis) ([#1856](https://github.com/community-scripts/ProxmoxVE/pull/1856))
+
+### 🚀 Updated Scripts
+
+- Optimize PVE Manager Version-Check [@MickLesk](https://github.com/MickLesk) ([#1866](https://github.com/community-scripts/ProxmoxVE/pull/1866))
+
+### 🌐 Website
+
+- [API] Update build.func to set the status message correct [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1878](https://github.com/community-scripts/ProxmoxVE/pull/1878))
+- [Website] Update /data/page.tsx [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1876](https://github.com/community-scripts/ProxmoxVE/pull/1876))
+- Fix IT-Tools Website Entry (Default | Alpine)  [@MickLesk](https://github.com/MickLesk) ([#1869](https://github.com/community-scripts/ProxmoxVE/pull/1869))
+- fix: remove rounded styles from command primitive [@steveiliop56](https://github.com/steveiliop56) ([#1840](https://github.com/community-scripts/ProxmoxVE/pull/1840))
+
+### 🧰 Maintenance
+
+- [API] Update build.func: add function to see if a script failed or not [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1874](https://github.com/community-scripts/ProxmoxVE/pull/1874))
+
+## 2025-01-29
+
+### Changed
+
+### ✨ New Scripts
+
+- New Script: Prometheus Proxmox VE Exporter [@andygrunwald](https://github.com/andygrunwald) ([#1805](https://github.com/community-scripts/ProxmoxVE/pull/1805))
+- New Script: Clean Orphaned LVM [@MickLesk](https://github.com/MickLesk) ([#1838](https://github.com/community-scripts/ProxmoxVE/pull/1838))
+
+### 🌐 Website
+
+- Patch http Url to https in build.func and /data/page.tsx [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1849](https://github.com/community-scripts/ProxmoxVE/pull/1849))
+- [Frontend] Add /data to show API results [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1841](https://github.com/community-scripts/ProxmoxVE/pull/1841))
+- Update clean-orphaned-lvm.json [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1843](https://github.com/community-scripts/ProxmoxVE/pull/1843))
+
+### 🧰 Maintenance
+
+- Update build.func [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1851](https://github.com/community-scripts/ProxmoxVE/pull/1851))
+- [Diagnostic] Introduced optional lxc install diagnostics via API call [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1801](https://github.com/community-scripts/ProxmoxVE/pull/1801))
+
+## 2025-01-28
+
+### Changed
+
+### 💥 Breaking Changes
+
+- Breaking Change: Homarr v1 (Read Guide) [@MickLesk](https://github.com/MickLesk) ([#1825](https://github.com/community-scripts/ProxmoxVE/pull/1825))
+- Update PingVin: Fix problem with update und switch to new method of getting files. [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1819](https://github.com/community-scripts/ProxmoxVE/pull/1819))
+
+### ✨ New Scripts
+
+- New script: Monica LXC [@bvdberg01](https://github.com/bvdberg01) ([#1813](https://github.com/community-scripts/ProxmoxVE/pull/1813))
+- New Script: NodeBB [@MickLesk](https://github.com/MickLesk) ([#1811](https://github.com/community-scripts/ProxmoxVE/pull/1811))
+- New Script: Pocket ID [@Snarkenfaugister](https://github.com/Snarkenfaugister) ([#1779](https://github.com/community-scripts/ProxmoxVE/pull/1779))
+
+### 🚀 Updated Scripts
+
+- Update all Alpine LXC's to 3.21 (Docker, Grafana, Nextcloud, Vaultwarden, Zigbee2Mqtt, Alpine) [@MickLesk](https://github.com/MickLesk) ([#1803](https://github.com/community-scripts/ProxmoxVE/pull/1803))
+- [Standardization] Fix Spelling for "Setup Python3" [@MickLesk](https://github.com/MickLesk) ([#1810](https://github.com/community-scripts/ProxmoxVE/pull/1810))
+
+### 🌐 Website
+
+- Filter out duplicate scripts in LatestScripts component and sort by creation date [@BramSuurdje](https://github.com/BramSuurdje) ([#1828](https://github.com/community-scripts/ProxmoxVE/pull/1828))
+
+### 🧰 Maintenance
+
+- [core]: Remove Figlet | Get Headers by Repo & Store Local [@MickLesk](https://github.com/MickLesk) ([#1802](https://github.com/community-scripts/ProxmoxVE/pull/1802))
+- [docs] Update AppName.md: Make it clear where to change the URLs [@michelroegl-brunner](https://github.com/michelroegl-brunner) ([#1809](https://github.com/community-scripts/ProxmoxVE/pull/1809))
+
+## 2025-01-27
+
+### Changed
+
+### ✨ New Scripts
+
+- New Script: Arch Linux VM [@MickLesk](https://github.com/MickLesk) ([#1780](https://github.com/community-scripts/ProxmoxVE/pull/1780))
+
+### 🚀 Updated Scripts
+
+- Increase alpine-vaultwarden default var_disk size [@nayzm](https://github.com/nayzm) ([#1788](https://github.com/community-scripts/ProxmoxVE/pull/1788))
+- Added change of the mobile GUI to disable nag request [@GarryG](https://github.com/GarryG) ([#1785](https://github.com/community-scripts/ProxmoxVE/pull/1785))
+
+### 🌐 Website
+
+- Update frontend alpine-vaultwarden hdd size and OS version [@nayzm](https://github.com/nayzm) ([#1789](https://github.com/community-scripts/ProxmoxVE/pull/1789))
+- Website: Add Description for Metadata Categories [@MickLesk](https://github.com/MickLesk) ([#1783](https://github.com/community-scripts/ProxmoxVE/pull/1783))
+- [Fix] Double "VM" on website (Arch Linux) [@lasharor](https://github.com/lasharor) ([#1782](https://github.com/community-scripts/ProxmoxVE/pull/1782))
+
 ## 2025-01-26
 
 ### Changed
 
 ### 🚀 Updated Scripts
 
+- Fix jellyfin update command [@jcisio](https://github.com/jcisio) ([#1771](https://github.com/community-scripts/ProxmoxVE/pull/1771))
+- openHAB - Use https and include doc url [@moodyblue](https://github.com/moodyblue) ([#1766](https://github.com/community-scripts/ProxmoxVE/pull/1766))
 - Jellyfin: Fix default logging level [@tremor021](https://github.com/tremor021) ([#1768](https://github.com/community-scripts/ProxmoxVE/pull/1768))
 - Calibre-Web: added installation of calibre binaries [@tremor021](https://github.com/tremor021) ([#1763](https://github.com/community-scripts/ProxmoxVE/pull/1763))
-- openHAB - Use https and include doc url [@moodyblue](https://github.com/moodyblue) ([#1766](https://github.com/community-scripts/ProxmoxVE/pull/1766))
 - Added environment variable to accept EULA for SQLServer2022 [@tremor021](https://github.com/tremor021) ([#1755](https://github.com/community-scripts/ProxmoxVE/pull/1755))
 
 ### 🌐 Website
