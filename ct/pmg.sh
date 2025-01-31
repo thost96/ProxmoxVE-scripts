@@ -5,8 +5,8 @@ source <(curl -s https://raw.githubusercontent.com/thost96/ProxmoxVE-scripts/ref
 # Author: thost96 (thost96)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
-APP="pmg"
-var_tags="mail"
+APP="PMG"
+var_tags="mail;debian12"
 var_cpu="2"
 var_ram="4096"
 var_disk="10"
