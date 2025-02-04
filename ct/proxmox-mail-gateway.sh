@@ -4,7 +4,7 @@ source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/m
 # Author: thost96 (thost96)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
-APP="Proxmox Mail Gateway"
+APP="Proxmox-Mail-Gateway"
 var_tags="mail"
 var_cpu="2"
 var_ram="4096"
