@@ -42,8 +42,6 @@ msg_ok "Installed Docker Compose Plugin"
 # mailcow Install
 msg_info "Installing mailcow: dockerized latest version"
 $STD git clone https://github.com/mailcow/mailcow-dockerized /opt/mailcow-dockerized
-#msg_info "Generating Default Config"
-#$STD /opt/mailcow-dockerized/generate_config.sh
 msg_ok "Installed mailcow: dockerized"
 
 msg_info "Pulling mailcow: dockerized Images"
