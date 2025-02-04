@@ -16,7 +16,7 @@
     "install_methods": [
         {
             "type": "default",
-            "script": "ct/pmg.sh",
+            "script": "ct/proxmox-mail-gateway.sh",
             "resources": {
                 "cpu": 2,
                 "ram": 4096,
