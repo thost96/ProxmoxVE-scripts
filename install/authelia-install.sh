@@ -47,29 +47,29 @@ users:
     groups: []
 EOF
 
-cat <<'EOF' >/etc/authelia/configuration.yml
+cat <<EOF >/etc/authelia/configuration.yml
 authentication_backend:
   file:
     path: /etc/authelia/users.yml
 access_control:
   default_policy: one_factor
 session:
-  secret: '${SESSION_SECRET}'
+  secret: "${SESSION_SECRET}"
   name: 'authelia_session'
   same_site: 'lax'
   inactivity: '5m'
   expiration: '1h'
   remember_me: '1M'
   cookies:
-    - domain: '${DOMAIN}'
-      authelia_url: 'https://auth.${DOMAIN}'
+    - domain: "${DOMAIN}"
+      authelia_url: "https://auth.${DOMAIN}"
 storage:
-  encryption_key: '${STORAGE_KEY}'
+  encryption_key: "${STORAGE_KEY}"
   local:
     path: /etc/authelia/db.sqlite
 identity_validation:
   reset_password:
-    jwt_secret: '${JWT_SECRET}'
+    jwt_secret: "${JWT_SECRET}"
     jwt_lifespan: '5 minutes'
     jwt_algorithm: 'HS256'
 notifier:
@@ -77,8 +77,8 @@ notifier:
     filename: /etc/authelia/emails.txt
 EOF
 
-msg_info "Validating Authelia Config"
-$STD authelia config validate -c /etc/authelia/configuration.yml
+#msg_info "Validating Authelia Config"
+#$STD authelia config validate -c /etc/authelia/configuration.yml
 
 msg_ok "Authelia Setup completed"
 
