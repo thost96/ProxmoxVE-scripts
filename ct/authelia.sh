@@ -4,7 +4,7 @@ source <(curl -s https://raw.githubusercontent.com/thost96/ProxmoxVE-scripts/aut
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: thost96 (thost96)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
-# Source: https://www.authelia.com/integration/deployment/bare-metal/"
+# Source: https://www.authelia.com/
 
 
 # App Default Values
@@ -32,7 +32,7 @@ function update_script() {
     check_container_resources
     if [[ ! -d "/etc/authelia/" ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
     RELEASE=$(curl -s https://api.github.com/repos/authelia/authelia/releases/latest | grep "tag_name" | awk '{print substr($2, 2, length($2)-3) }')
-    #if [[ "${RELEASE}" != "$(cat )" ]]; then
+    if [[ "${RELEASE}" != "$(/usr/bin/authelia -v | awk '{print substr($3, 2, length($2)) }' )" ]]; then
         msg_info "Updating $APP to ${RELEASE}"
         $STD apt-get update &>/dev/null
         $STD apt-get -y upgrade &>/dev/null
@@ -44,9 +44,9 @@ function update_script() {
         $STD apt-get -y autoclean
         msg_ok "Cleanup Completed"
         msg_ok "Updated $APP to ${RELEASE}"
-    #else
-    #    msg_ok "No update required. ${APP} is already at ${RELEASE}"
-    #fi
+    else
+        msg_ok "No update required. ${APP} is already at ${RELEASE}"
+    fi
     exit
 }
 

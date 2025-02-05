@@ -4,7 +4,7 @@
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: thost96 (thost96)
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
-# Source: https://www.authelia.com/integration/deployment/bare-metal/"
+# Source: https://www.authelia.com/
 
 
 # Import Functions und Setup
@@ -76,10 +76,7 @@ notifier:
   filesystem:
     filename: /etc/authelia/emails.txt
 EOF
-
-#msg_info "Validating Authelia Config"
-#$STD authelia config validate -c /etc/authelia/configuration.yml
-
+$STD systemctl start authelia
 msg_ok "Authelia Setup completed"
 
 motd_ssh
