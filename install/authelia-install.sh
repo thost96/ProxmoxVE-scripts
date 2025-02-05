@@ -25,8 +25,8 @@ msg_ok "Installed Dependencies"
 
 msg_info "Installing Authelia"
 RELEASE=$(curl -s https://api.github.com/repos/authelia/authelia/releases/latest | grep "tag_name" | awk '{print substr($2, 2, length($2)-3) }')
-wget -q https://github.com/authelia/authelia/releases/download/$RELEASE/authelia_$RELEASE_amd64.deb
-$STD dpkg -i authelia_$RELEASE_amd64.deb
+wget -q "https://github.com/authelia/authelia/releases/download/${RELEASE}/authelia_${RELEASE}_amd64.deb"
+$STD dpkg -i "authelia_${RELEASE}_amd64.deb"
 $STD systemctl enable authelia
 msg_ok "Install Authelia completed"
 
@@ -87,7 +87,7 @@ customize
 
 # Cleanup
 msg_info "Cleaning up"
-rm -f authelia_$RELEASE_amd64.deb
+rm -f "authelia_${RELEASE}_amd64.deb"
 $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 msg_ok "Cleaned"

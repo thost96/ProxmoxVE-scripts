@@ -36,10 +36,10 @@ function update_script() {
         msg_info "Updating $APP to ${RELEASE}"
         $STD apt-get update &>/dev/null
         $STD apt-get -y upgrade &>/dev/null
-        wget -q https://github.com/authelia/authelia/releases/download/$RELEASE/authelia_$RELEASE_amd64.deb
-        $STD dpkg -i authelia_$RELEASE_amd64.deb
+        wget -q "https://github.com/authelia/authelia/releases/download/${RELEASE}/authelia_${RELEASE}_amd64.deb"
+        $STD dpkg -i "authelia_${RELEASE}_amd64.deb"
         msg_info "Cleaning Up"
-        rm -f authelia_$RELEASE_amd64.deb
+        rm -f "authelia_${RELEASE}_amd64.deb"
         $STD apt-get -y autoremove
         $STD apt-get -y autoclean
         msg_ok "Cleanup Completed"
