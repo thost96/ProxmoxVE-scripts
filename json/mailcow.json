@@ -34,10 +34,6 @@
         {
             "text": "This Script works on amd64 and arm64 Architecture.",
             "type": "info"
-        },
-        {
-          "text": "After the first login, you need to execute the script /opt/mailcow-dockerized/generate_config.sh to set your custom settings.",
-          "type": "warn"
         }
     ]
 }

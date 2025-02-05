@@ -42,11 +42,18 @@ msg_ok "Installed Docker Compose Plugin"
 # mailcow Install
 msg_info "Installing mailcow: dockerized latest version"
 $STD git clone https://github.com/mailcow/mailcow-dockerized /opt/mailcow-dockerized
+$STD echo "cd /opt/mailcow-dockerized/" >> /root/.profile
 msg_ok "Installed mailcow: dockerized"
 
 msg_info "Pulling mailcow: dockerized Images"
 $STD cd /opt/mailcow-dockerized/ && docker compose pull
 msg_ok "Pulled mailcow: dockerized"
+
+msg_info "Configuring mailcow: dockerized"
+MAILCOW_HOSTNAME=$(hostname -F)
+TIMEZONE=""
+$STD sed -i -e "s|^MAILCOW_HOSTNAME=.*|MAILCOW_HOSTNAME=$MAILCOW_HOSTNAME|" mailcow.conf
+msg_ok "Configured mailcow: dockerized"
 
 motd_ssh
 customize

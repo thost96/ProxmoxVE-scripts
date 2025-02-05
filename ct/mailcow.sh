@@ -7,7 +7,7 @@ source <(curl -s https://raw.githubusercontent.com/thost96/ProxmoxVE-scripts/mai
 # Source: https://docs.mailcow.email/getstarted/install/
 
 APP="mailcow"
-var_tags="mail;debian12"
+var_tags="mail"
 var_cpu="2"
 var_ram="6144"
 var_disk="10"
@@ -37,6 +37,13 @@ function update_script() {
   msg_ok "Updated ${APP} LXC"
   exit
 }
+
+# Modify LXC Config
+CTID_CONFIG_PATH=/etc/pve/lxc/${CTID}.conf
+cat <<EOF >>$CTID_CONFIG_PATH
+lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+EOF
 
 start
 build_container
